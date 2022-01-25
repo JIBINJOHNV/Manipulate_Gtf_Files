@@ -33,7 +33,12 @@ gffdata$gene_biotype=getAttributeField(gffdata$attributes, field = "gene_biotype
 gffdata$gene_name=getAttributeField(gffdata$attributes, field = "gene_name")
 gffdata$gene_id=getAttributeField(gffdata$attributes, field = "gene_id")
 
+selectdcols<-gffdata[,c("seqname","start", "end","strand","feature","gene_name","gene_id","gene_biotype")]
+Gene<-selectdcols[selectdcols$feature =="gene", ]
+#Gene<-lapply(Gene, gsub, pattern='"', replacement='')
+write.csv(Gene,file='Rattus_norvegicus.mRatBN7.2.105_Gene.csv',row.names=FALSE)
 
+system.cmd('sed -i 's/"//g' Rattus_norvegicus.mRatBN7.2.105_Gene.csv')
 
 
 
