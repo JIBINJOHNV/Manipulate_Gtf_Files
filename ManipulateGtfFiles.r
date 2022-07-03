@@ -44,3 +44,24 @@ system.cmd('sed -i 's/"//g' Rattus_norvegicus.mRatBN7.2.105_Gene.csv')
 
 #Extract features from gtf/gff objects use gread ;;;; But installation is difficult
 
+
+
+
+
+
+###########Get ntrons from gtf file
+
+
+library(gread)
+
+gtf_file <- file.path("/home/jibin/Downloads/Drosophila/", "Drosophila_melanogaster.BDGP6.32.106.gtf")
+gtf <- read_format(gtf_file)
+
+introns <- construct_introns(gtf, update=FALSE)
+introns<-data.frame(introns)
+introns_speciic$start<-as.numeric(introns_speciic$start)
+introns_speciic<-introns_speciic[,c("seqnames","start","end","gene_name","score","strand")]
+
+
+
+
