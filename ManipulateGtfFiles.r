@@ -63,5 +63,6 @@ introns_speciic$start<-as.numeric(introns_speciic$start)
 introns_speciic<-introns_speciic[,c("seqnames","start","end","gene_name","score","strand")]
 
 
-
+##Very good tool
+gtftools=http://www.genemine.org/gtftools.php
 
