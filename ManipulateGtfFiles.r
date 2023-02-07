@@ -66,3 +66,5 @@ introns_speciic<-introns_speciic[,c("seqnames","start","end","gene_name","score"
 ##Very good tool
 gtftools=http://www.genemine.org/gtftools.php
 
+##Python tools
+AGEpy:   https://agepy.readthedocs.io/en/latest/modules/gtf/
