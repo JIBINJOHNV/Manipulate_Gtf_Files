@@ -68,3 +68,4 @@ gtftools=http://www.genemine.org/gtftools.php
 
 ##Python tools
 AGEpy:   https://agepy.readthedocs.io/en/latest/modules/gtf/
+gffpandas : https://gffpandas.readthedocs.io/en/latest/tutorial.html#example-tutorial
