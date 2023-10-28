@@ -69,3 +69,18 @@ gtftools=http://www.genemine.org/gtftools.php
 ##Python tools
 AGEpy:   https://agepy.readthedocs.io/en/latest/modules/gtf/
 gffpandas : https://gffpandas.readthedocs.io/en/latest/tutorial.html#example-tutorial
+
+
+
+
+
+##rtracklayer
+library(rtracklayer)
+
+gtf <- import("gencode.v36.annotation.gtf")
+gtf_df<-as.data.frame(gtf)
+gtf_gene_df<-gtf_df[gtf_df$type=="gene",]
+gtf_gene_df<-gtf_gene_df[,c("gene_id","seqnames","start","end","width","strand","gene_type","gene_name")]
+
+
+
