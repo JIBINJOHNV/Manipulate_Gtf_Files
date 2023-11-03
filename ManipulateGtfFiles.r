@@ -87,35 +87,38 @@ gtf_gene_df<-gtf_gene_df[,c("gene_id","seqnames","start","end","width","strand",
 ### My custom python script
 
 class GFFProcessor:
+    attributes_list=[]
     def __init__(self, gff_file):
         self.gff_file = gff_file
-        self.annotation_df = self.process_gff_file()
+        #self.annotation_df = self.process_gff_file()
     
-    attributes_list=[]
-    
-    def attribute_todf(row):
+    def attribute_todf(self,row):
         Dict = row.to_dict()
         Dict_1 = {k: v for k, v in Dict.items() if k != "attributes"}
         attributes = row["attributes"]  # Extract the "attributes" column
         temp_list = attributes.split("; ")
         temp_dict = {x.split()[0].replace('"', ''): x.split()[1].replace(";", "").replace('"', '') for x in temp_list}
         Dict = {**Dict_1, **temp_dict}
-        attributes_list.append(Dict)
+        self.attributes_list.append(Dict)
         return Dict
     
     def process_gff_file(self):
-        annotation = gffpd.read_gff3('gencode.v36.annotation.gtf')
-        annotation_df=annotation.df
-        annotation_df=annotation_df[annotation_df['type']=="gene"]
-        annotation_df=annotation_df.drop(["phase","score",'source','type'],axis=1).reset_index(drop=True)
-        annotation_df['Result'] = annotation_df.apply(attribute_todf, axis=1)
-        annotation_df=pd.DataFrame(attributes_list)
-        annotation_df=df.drop(['level','hgnc_id','havana_gene','tag'],axis=1)
-        return annotation_df
+            annotation = gffpd.read_gff3(self.gff_file)
+            annotation_df=annotation.df
+            annotation_df=annotation_df[annotation_df['type']=="gene"]
+            annotation_df=annotation_df.drop(["phase","score",'source','type'],axis=1).reset_index(drop=True)
+            annotation_df['Result'] = annotation_df.apply(self.attribute_todf, axis=1)
+            annotation_df=pd.DataFrame(self.attributes_list)
+            annotation_df=annotation_df.drop(['level','hgnc_id','havana_gene','tag'],axis=1)
+            return annotation_df
 
 
 gff_file = 'gencode.v36.annotation.gtf'
 gff_processor = GFFProcessor(gff_file)
-annotation_df = gff_processor.annotation_df
+annotation_df = gff_processor.process_gff_file()
+annotation_df2=annotation_df[["gene_id","gene_name","gene_type"]]
+annotation_df2.columns=['ensembl_gene_id','gene_name','gene_biotype']
+annotation_df2=annotation_df2.set_index("ensembl_gene_id")
+
 
 
